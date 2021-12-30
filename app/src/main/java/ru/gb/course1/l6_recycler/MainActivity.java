@@ -1,18 +1,18 @@
 package ru.gb.course1.l6_recycler;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements OnEmployeeListener {
     private final ArrayList<EmployeeEntity> employeeList = new ArrayList<>();
-    private LinearLayout listLinearLayout;
+    private RecyclerView recyclerView;
+    private EmployeeAdapter adapter;
 
     private static ArrayList<EmployeeEntity> createDummyEmployeesData() {
         final ArrayList<EmployeeEntity> employeeEntities = new ArrayList<>();
@@ -67,42 +67,44 @@ public class MainActivity extends AppCompatActivity {
         return employeeEntities;
     }
 
-    private static int getPosByItem(ArrayList<EmployeeEntity> employeeList, EmployeeEntity employeeEntity) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        employeeList.addAll(createDummyEmployeesData());
+
+        initRecycler();
+    }
+
+    private void initRecycler() {
+        recyclerView = findViewById(R.id.recycler_view);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new EmployeeAdapter();
+        adapter.setData(employeeList);
+        adapter.setOnDeleteClickListener(this);
+
+        recyclerView.setAdapter(adapter);
+    }
+
+    private int findPosition(EmployeeEntity employeeEntity) {
         for (int i = 0; i < employeeList.size(); i++) {
             if (employeeEntity.getId().equals(employeeList.get(i).getId())) {
                 return i;
             }
         }
-        return -1;
+        throw new IllegalArgumentException("Нет такого элемента, где нашёл?");
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        View rootView = getLayoutInflater().inflate(R.layout.activity_main, null);
-        setContentView(rootView);
-
-        employeeList.addAll(createDummyEmployeesData());
-
-        listLinearLayout = findViewById(R.id.list_linear_layout);
-
-        refreshList();
+    public void onDeleteEmployee(EmployeeEntity employeeEntity) {
+        employeeList.remove(findPosition(employeeEntity));
+        adapter.setData(employeeList);
     }
 
-    private void refreshList() {
-        listLinearLayout.removeAllViews();
-
-        Button button = ListViewUtils.createButtonView(this, v -> {
-            refreshList();
-        });
-        listLinearLayout.addView(button);
-        for (EmployeeEntity employeeEntity : employeeList) {
-            View employeeItemView = ListViewUtils.createItemView(getLayoutInflater(), listLinearLayout, employeeEntity, v -> {
-                int deletedPosition = getPosByItem(employeeList, employeeEntity);
-                listLinearLayout.removeViewAt(deletedPosition + 1);
-                employeeList.remove(deletedPosition);
-            });
-            listLinearLayout.addView(employeeItemView);
-        }
+    @Override
+    public void onClickEmployee(EmployeeEntity employeeEntity) {
+        Toast.makeText(this, employeeEntity.getName(), Toast.LENGTH_SHORT).show();
     }
 }
