@@ -1,4 +1,4 @@
-package ru.gb.course1.l6_recycler;
+package ru.gb.course1.l6_recycler.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import ru.gb.course1.l6_recycler.domain.EmployeeEntity;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeViewHolder> {
     private ArrayList<EmployeeEntity> data = new ArrayList<>();

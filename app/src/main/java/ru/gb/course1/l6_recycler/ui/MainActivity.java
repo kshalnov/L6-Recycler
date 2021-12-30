@@ -1,4 +1,4 @@
-package ru.gb.course1.l6_recycler;
+package ru.gb.course1.l6_recycler.ui;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import ru.gb.course1.l6_recycler.domain.EmployeeEntity;
+import ru.gb.course1.l6_recycler.R;
 
 public class MainActivity extends AppCompatActivity implements OnEmployeeListener {
     private final ArrayList<EmployeeEntity> employeeList = new ArrayList<>();

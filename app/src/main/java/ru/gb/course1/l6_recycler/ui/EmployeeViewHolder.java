@@ -1,4 +1,4 @@
-package ru.gb.course1.l6_recycler;
+package ru.gb.course1.l6_recycler.ui;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import ru.gb.course1.l6_recycler.domain.EmployeeEntity;
+import ru.gb.course1.l6_recycler.R;
 
 public class EmployeeViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameTextView = itemView.findViewById(R.id.name_text_view);

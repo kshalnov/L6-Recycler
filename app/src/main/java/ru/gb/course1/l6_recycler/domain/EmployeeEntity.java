@@ -1,4 +1,4 @@
-package ru.gb.course1.l6_recycler;
+package ru.gb.course1.l6_recycler.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
